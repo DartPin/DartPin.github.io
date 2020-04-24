@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    let quantityPages = prompt("Input quantity pages", 0)
+    let quantityImage = prompt('Enter quantity of images on page', 0)
+    let pages = []
+    for(let i=0; i < (quantityImage*quantityPages); i++){
+        let page = {}
+        page.id = i
+        page.title = "Image "+i
+    }
+    let page = ''
+    let pageIndex = 1
+
+</script>
+
+<body>
+    <div id="block" class="blog">
+        
+    </div>
+
+    <div id="pagesMenu" class="blog__pages-menu">
+        <div class="blog__btn blog__btn-left" onclick="changePage('prev')">previos</div>
+        <div id="btns" class="blog__btns"></div>
+        <div class="blog__btn blog__btn-right" onclick="changePage('next')">next</div>
+    </div>
+</body>
+
+<script>
+    let el = document.getElementById('block')
+    let elBtns = document.getElementById('btns')
+    let pageNum = [1, 2 , 3, 4, 5, 6, 7, '...', quantityPages]
+    let btns = ''
+
+    page = `<div class="blog__title">Page #${pageIndex}</div>`
+
+    for(let i = (pageIndex*quantityImage - quantityImage); i<(pageIndex*quantityImage); i++){
+        page += `<div class="blog__elem">
+                <div class="image-block">
+                        <div class="image-block__img"> <img class="image-block__img-item" src="dark.jpg"> </div>
+                        <div class="image-block__title">Image ${i+1}</div>
+                        <div class="image-block__discription">Join the dark side</div>
+                    </div>
+                </div>`
+    }
+
+    for (let i = 0; i<pageNum.length; i++){
+        btns +=`
+            <div class="blog__btns-item">
+                ${pageNum[i]}
+            </div>
+        ` 
+    }
+    elBtns.innerHTML = btns
+    el.innerHTML = page
+
+
+
+    function changePage(val){
+        if(val === 'prev' && pageIndex > 1){
+            page = ''
+            btns = ''
+            pageIndex -= 1
+            let el = document.getElementById('block')
+
+            page = `<div class="blog__title">Page #${pageIndex}</div>`
+
+            if (pageIndex < 8 ){
+                pageNum = [1, 2 , 3, 4, 5, 6, 7, '...', quantityPages]
+                for (let i = 0; i<pageNum.length; i++){
+                btns +=`
+                    <div class="blog__btns-item">
+                        ${pageNum[i]}
+                    </div>
+                ` 
+                }
+            } else if (pageIndex > quantityPages-7){
+                pageNum = [1, '...' , quantityPages-6, quantityPages-5, quantityPages-4, quantityPages-3, quantityPages-2, quantityPages-1, quantityPages]
+                for (let i = 0; i<pageNum.length; i++){
+                btns +=`
+                    <div class="blog__btns-item">
+                        ${pageNum[i]}
+                    </div>
+                ` 
+                }
+            } else {
+                pageNum = [1, '...', pageIndex-2, pageIndex-1, pageIndex, pageIndex+1, pageIndex+2, '...', quantityPages]
+                for (let i = 0; i<pageNum.length; i++){
+                btns +=`
+                    <div class="blog__btns-item">
+                        ${pageNum[i]}
+                    </div>
+                ` 
+                }
+            }
+
+
+            for(let i = (pageIndex*quantityImage - quantityImage); i<(pageIndex*quantityImage); i++){
+                page += `<div class="blog__elem">
+                <div class="image-block">
+                        <div class="image-block__img"> <img class="image-block__img-item" src="dark.jpg"> </div>
+                        <div class="image-block__title">Image ${i+1}</div>
+                        <div class="image-block__discription">Join the dark side</div>
+                    </div>
+                </div>`
+            }
+
+            elBtns.innerHTML = btns
+            el.innerHTML = page
+        } else if (val === 'next' && pageIndex < quantityPages){
+            page = ''
+            pageIndex += 1
+            let el = document.getElementById('block')
+
+            page = `<div class="blog__title">Page #${pageIndex}</div>`
+
+            for(let i = (pageIndex*quantityImage - quantityImage); i<(pageIndex*quantityImage); i++){
+                page += `<div class="blog__elem">
+
+                <div class="image-block">
+                    
+                        <div class="image-block__img"> <img class="image-block__img-item" src="dark.jpg"> </div>
+                        <div class="image-block__title">Image ${i+1}</div>
+                        <div class="image-block__discription">Join the dark side</div>
+                    </div>
+                </div>`
+            }
+            el.innerHTML = page
+        }
+    }
+</script>
+<style>
+    html, body{
+        width: 100%;
+        text-align: center;
+        background: rgb(240, 240, 240);
+        margin: 0;
+    }
+    .blog__title{
+        font-size: 30px;
+        font-weight: 700;
+        margin: 10px;
+    }
+    .blog__elem{
+        margin-left: 4%;
+        width: 45%;
+        display: inline-block;
+        text-align: center;
+    }
+    .image-block{
+        width: 90%;
+        text-align: center;
+        border: 2px solid rgb(88, 28, 28);
+        border-radius: 5px;
+        margin:0 0 10px 0;
+        padding: 10px;
+    }
+    .image-block__img{
+        margin-left: 5%;
+        width: 90%;
+    }
+    .image-block__img-item{
+        width: 90%;
+    }
+    .image-block__title{
+        font-size: 18px;
+        font-weight: 500;
+        margin: 10px 0;
+    }
+    .image-block__discription{
+        font-size: 20px;
+        font-weight: 400;
+    }
+    .blog__btn{
+        border: 2px solid  rgb(88, 28, 28);
+        border-radius: 5px;
+        padding: 10px;
+        width: 100px;
+        font-size: 18px;
+        font-weight: 700;
+        color: red;
+        background: black;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .blog__btn:hover{
+        cursor: pointer;
+    }
+    .blog__btns{
+        display: inline-block;
+    }
+    .blog__btns-item{
+        border: 2px solid  rgb(88, 28, 28);
+        border-radius: 5px;
+        padding: 10px;
+        width: 30px;
+        font-size: 18px;
+        font-weight: 700;
+        color: red;
+        background: black;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    @media all and (max-width: 850px) {
+        .blog__btns-item{
+            width:12px;
+            font-size: 12px;
+            padding: 5px;
+        }
+        .blog__btn{
+            width: 40px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px;
+        }
+    }
+</style>
+</html>
